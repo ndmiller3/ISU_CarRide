@@ -21,6 +21,7 @@ public class MainRun {
                 "\n**************************************");
         System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) previous customer that needs to login");
         System.out.println("\nPlease type number of selection here: ");
+        
 
         switch(mainMenu.nextInt()){
             case 1:
