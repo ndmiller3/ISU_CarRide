@@ -2,3 +2,9 @@
 \.idea/
 
 out/
+
+BigJavaDB/
+
+derby.jar
+
+derby.log
