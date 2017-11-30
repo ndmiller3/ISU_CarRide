@@ -8,3 +8,10 @@ BigJavaDB/
 derby.jar
 
 derby.log
+\.DS_Store
+
+*.iml
+
+src/ProjectLogic/MainRun\.java
+
+mysql\.jar
