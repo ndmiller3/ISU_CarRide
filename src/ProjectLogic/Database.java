@@ -33,13 +33,6 @@ public class Database {
         username="carRide";
         password="FJT4dTh9NaQydUie";
 
-        if(password==null){
-            password="";
-        }
-        if(username==null){
-            password="";
-        }
-
         try(Connection connection = Database.getConnection()){
 
             Statement tableBegin = connection.createStatement();

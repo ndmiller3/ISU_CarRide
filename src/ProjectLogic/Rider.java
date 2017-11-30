@@ -13,13 +13,17 @@ import java.util.Scanner;
  * Updated 8.11.2017
  */
 public class Rider {
+
+    public double distanceTraveled; //TODO random distance generate, $3.00 + .50 every mile
+
     private String startLocation;
     private String destination;
-    private double distanceTraveled;
     private int rideStyle;
     private String customerEmail;
+    private int CustomerID;
     private String customerCardNumber;
     private double customerChargeAmount;
+    private double totalCharges;
 
     /**
      * Constructs a new Rider object
@@ -60,10 +64,14 @@ public class Rider {
         System.out.println("What is your credit/debit card number?\nPlease enter as such: 1234567891234567");
         //more error correcting
         //TODO fix
-        while(customerData.next().length() <16 || customerData.next().length()>16){
-            customerData.next();
-            System.out.println("\n**INVALID CARD NUMBER**\nWhat is your credit/debit card number?\nPlease enter as such: 1234567891234567");
+        /**
+        while(customerData.hasNext()){
+            if(customerData.next().length() <16 || customerData.next().length()>16){
+                customerData.next();
+                System.out.println("\n**INVALID CARD NUMBER**\nWhat is your credit/debit card number?\nPlease enter as such: 1234567891234567");
+            }
         }
+         **/
         customerCardNumber = customerData.next();
 
        try(Connection con = Database.getConnection()){
@@ -145,12 +153,13 @@ public class Rider {
         try(Connection connection = Database.getConnection()){
 
             //Since all we need is the customerEmail and cardNumber, we just select these two fields
-            String loginQuery = "SELECT CustomerEmail, Card_Number FROM CUSTOMER WHERE CustomerEmail=? AND PASSWORD=?";
+            String loginQuery = "SELECT CustomerEmail, Card_Number, RiderID FROM CUSTOMER WHERE CustomerEmail=? AND PASSWORD=?";
 
             //these set and execute the query to try and find the matching customer data
             PreparedStatement loginSearch = connection.prepareStatement(loginQuery);
             loginSearch.setString(1,customerEmail);
             loginSearch.setString(2,password);
+
             ResultSet resultSet = loginSearch.executeQuery();
 
             //tests to see if we have correct login information
@@ -169,6 +178,7 @@ public class Rider {
             //set customer data so we can charge 💰💰💰
             customerEmail=resultSet.getString(1);
             customerCardNumber = resultSet.getString(2);
+            CustomerID = resultSet.getInt(3);
 
             System.out.println("\n**LOGIN SUCCESSFUL**");
 
@@ -177,8 +187,8 @@ public class Rider {
             System.out.println(e);
         }
     }
-    public String returnLogin(){
-        //TODO
-        return null;
+
+    public double getTotalCharges(){
+        return totalCharges;
     }
 }
