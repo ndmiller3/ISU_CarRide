@@ -19,7 +19,7 @@ public class MainRun {
                 "* Welcome to ISU's Car Ride System! *\n" +
                 "*                                   *" +
                 "\n**************************************");
-        System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) previous customer that needs to login");
+        System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) Previous customer that needs to login \n(4) Previous driver that needs to login");
         System.out.println("\nPlease type number of selection here: ");
         
 
@@ -29,8 +29,30 @@ public class MainRun {
 
                 rider.customerLogin();
             case 2:
-                Rider rider1 = new Rider();
-                rider1.NewCustomer();
+                Driver driver = new Driver();
+                driver.newDriver();
+                driver.switchAvailability();
+                driver.beginDrive();
+                driver.endDrive();
+                
+                // TODO Daniel what would be the correct value to put in for the 0?
+                driver.payDriver(0);
+                
+                //TODO Case 3
+            case 3:
+            	
+            case 4:
+            	Driver d = new Driver();
+            	d.driverLogin();
+            	d.switchAvailability();
+            	d.beginDrive();
+            	d.endDrive();
+            	
+            	//TODO Daniel this is the same issue. 
+            	d.payDriver(0);
+            	
+            	
+            	
 
         }
 
