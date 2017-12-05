@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class MainRun {
 
     public static void main(String args[]) throws
-            SQLException, IOException, ClassNotFoundException
+            SQLException, IOException, ClassNotFoundException, Exception
     {
         Rider rider=null;
         Driver driver=null;
@@ -23,7 +23,7 @@ public class MainRun {
                 "* Welcome to ISU's Car Ride System! *\n" +
                 "*                                   *" +
                 "\n**************************************");
-        System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) Previous customer that needs to login \n(4) Previous driver that needs to login");
+        System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) Previous customer that needs to login \n(4) Previous driver that needs to login\n(5) To run Daily Reports.");
         System.out.println("\nPlease type number of selection here: ");
         
 
@@ -56,13 +56,24 @@ public class MainRun {
             	
             	//TODO Daniel this is the same issue. 
             	d.payDriver(0);
+
+            case 5:
+               DailyReport dailyReport = new DailyReport();
+               dailyReport.displayReport();
         }
         if(rider!=null){
-            //let's get some showing what a rider can do
+            Scanner customerChoice = new Scanner(System.in);
+
+            System.out.println("Would you like to call a ride? (Y/N)");
+
+           if (customerChoice.next().equalsIgnoreCase("Y")){
+               rider.callRide();
+           }
+
 
         }
-
     }
+
 
 }
 

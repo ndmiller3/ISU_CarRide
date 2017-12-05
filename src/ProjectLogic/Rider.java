@@ -149,9 +149,10 @@ public class Rider {
      * Takes in a RideID and calculates the Rider's Charges
      * @param rideID
      */
-    public void RiderCharges(int rideID, double tip){
+    public void RiderCharges(int rideID){
 
-        try(Connection con = Database.getConnection()) {
+        try(Connection con = Database.getConnection())
+        {
             PreparedStatement getDistance = con.prepareStatement("SELECT DistanceTraveled FROM RIDES WHERE RideIdentification=?");
             getDistance.setInt(1,rideID);
 
@@ -159,7 +160,7 @@ public class Rider {
             ResultSet resultSet = getDistance.executeQuery();
 
             //calculates charges
-            totalCharges = resultSet.getInt(1)+tip;
+            totalCharges = resultSet.getInt(1);
         }
 
         catch (Exception e){
