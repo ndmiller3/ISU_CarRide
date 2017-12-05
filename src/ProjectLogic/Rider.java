@@ -1,10 +1,6 @@
 package ProjectLogic;
 
-import java.math.BigInteger;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Scanner;
 
 /**
@@ -20,10 +16,11 @@ public class Rider {
     private String destination;
     private int rideStyle;
     private String customerEmail;
-    private int CustomerID;
+    private int customerID;
     private String customerCardNumber;
-    private double customerChargeAmount;
     private double totalCharges;
+    private int riderID=1;
+    private int driverID=1;
 
     /**
      * Constructs a new Rider object
@@ -49,30 +46,30 @@ public class Rider {
 
         System.out.println("What is your age (in years)?");
         //little correcting so certain people don't try to break the code
-        while(!customerData.hasNextInt()){
+        while(!customerData.hasNextInt())
+        {
             customerData.next();
             System.out.println("**Invalid age entered!**\nWhat is your age (in years) (please enter only digits)?");
         }
         int customerAge = customerData.nextInt();
 
         System.out.println("What is your email address?");
-        String customerEmail =customerData.next();
+        customerEmail =customerData.next();
 
         System.out.println("What is your password?");
         String customerPassword = customerData.next();
 
         System.out.println("What is your credit/debit card number?\nPlease enter as such: 1234567891234567");
         //more error correcting
-        //TODO fix
-        /**
-        while(customerData.hasNext()){
-            if(customerData.next().length() <16 || customerData.next().length()>16){
-                customerData.next();
-                System.out.println("\n**INVALID CARD NUMBER**\nWhat is your credit/debit card number?\nPlease enter as such: 1234567891234567");
-            }
-        }
-         **/
         customerCardNumber = customerData.next();
+
+        //fixed with suggestion from Nolan
+        while(customerCardNumber.length() != 16)
+        {
+            System.out.print("That is not a valid card number, please reenter it now.\n");
+            customerCardNumber = customerData.next();
+        }
+
 
        try(Connection con = Database.getConnection()){
 
@@ -88,9 +85,18 @@ public class Rider {
            newCustomerStatement.setString(5,customerCardNumber);
            newCustomerStatement.execute();
 
+          String getRiderID = "SELECT RiderID FROM CUSTOMER WHERE CustomerEmail=? AND Password=?";
+          PreparedStatement getRiderIDStatement = con.prepareStatement(getRiderID);
+          getRiderIDStatement.setString(1,customerEmail);
+          getRiderIDStatement.setString(2,customerPassword);
+
+          ResultSet resultSet = getRiderIDStatement.executeQuery();
+
+          riderID = resultSet.getInt(1);
+
            con.close();
        }
-       catch (SQLException e){
+       catch (Exception e){
            System.out.println(e);
        }
     }
@@ -99,6 +105,9 @@ public class Rider {
      * This class is designed to gather start location, destination and rideStyle, and query the database for a currently
      * available driver that is nearby and can handle the parameters given. This class also sets the variables that are used
      * to calculate price
+     *
+     * Note: we were not able to implement a method to calculate distance based off google maps at this time. Possible TODO
+     *
      */
     public void callRide(){
 
@@ -118,26 +127,66 @@ public class Rider {
 
         try(Connection connection = Database.getConnection()){
 
-            //TODO fix select
-            String rideQuery = "SELECT * FROM DRIVERS WHERE RIDESTYLE=? AND AVAILABILITY = 1";
+            //Pulls a DriverID to use as the Driver
+            String rideQuery = "SELECT DriverID, DriverName FROM DRIVERS WHERE RIDESTYLE=? AND AVAILABILITY = 1";
             PreparedStatement ridePrep = connection.prepareStatement(rideQuery);
-
             ridePrep.setInt(1,rideStyle);
-            //TODO FINISH THIS WE HAVE TO FIND A WAY TO GATHER DISTANCES FROM A POINT IN A DATABASE AND LOCATE DRIVERS
+            ResultSet resultSet = ridePrep.executeQuery();
+
+            //Set's driver ID and prints the Driver Name
+            driverID = resultSet.getInt(1);
+            System.out.println("Your Driver is: "+resultSet.getString(2));
 
             connection.close();
 
         }
-        catch (SQLException e){
-            //TODO
+        catch (Exception e){
+            System.out.println(e);
         }
     }
 
-    public void RiderCharges(){
+    /**
+     * Takes in a RideID and calculates the Rider's Charges
+     * @param rideID
+     */
+    public void RiderCharges(int rideID, double tip){
 
+        try(Connection con = Database.getConnection()) {
+            PreparedStatement getDistance = con.prepareStatement("SELECT DistanceTraveled FROM RIDES WHERE RideIdentification=?");
+            getDistance.setInt(1,rideID);
+
+            //gets the distance traveled
+            ResultSet resultSet = getDistance.executeQuery();
+
+            //calculates charges
+            totalCharges = resultSet.getInt(1)+tip;
+        }
+
+        catch (Exception e){
+            System.out.println(e);
+        }
     }
-    public void rateDriver(){
 
+    /**
+     * Get's the rating the rider gives the driver
+     */
+    public void rateDriver(int driverID){
+        Scanner rating = new Scanner(System.in);
+
+        System.out.println("Please enter the rating of your driver, 1-5: ");
+        int driverRating = rating.nextInt();
+
+        try(Connection con = Database.getConnection())
+        {
+         PreparedStatement setRating = con.prepareStatement("UPDATE DRIVERS SET DriverRating=? WHERE DriverID =? ");
+         setRating.setInt(1,driverRating);
+         setRating.setInt(2,driverID);
+         setRating.execute();
+
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
     }
     public void customerLogin(){
 
@@ -178,7 +227,7 @@ public class Rider {
             //set customer data so we can charge 💰💰💰
             customerEmail=resultSet.getString(1);
             customerCardNumber = resultSet.getString(2);
-            CustomerID = resultSet.getInt(3);
+            customerID = resultSet.getInt(3);
 
             System.out.println("\n**LOGIN SUCCESSFUL**");
 
@@ -190,5 +239,16 @@ public class Rider {
 
     public double getTotalCharges(){
         return totalCharges;
+    }
+    public int getRiderID(){
+        return riderID;
+    }
+    public String getStartLocation()
+    {
+        return startLocation;
+    }
+    public String getDestination()
+    {
+        return destination;
     }
 }

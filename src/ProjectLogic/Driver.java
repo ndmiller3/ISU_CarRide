@@ -1,14 +1,15 @@
 package ProjectLogic;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.xml.crypto.Data;
+import java.sql.*;
+import java.util.Random;
 import java.util.Scanner;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-//@authorname Nolan Miller
 
-// Updated: 11-20-17
+/**
+ * @authorname Nolan Miller
+ * Updated: 11-20-17
+ */
 
 public class Driver {
 	private String driverName; //Variable for driver name
@@ -18,6 +19,8 @@ public class Driver {
 	private String driverEmail; // Variable to hold Driver's email.
 	private String driverCardNumber; // Variable to hold the Driver's credit card number
 	private int driverID; // Variable to hold the Driver's ID Number.
+    private int distanceTraveled;
+    private int rideID;
 	
 	
 /**
@@ -39,6 +42,7 @@ public void newDriver()
 	//Asking for the first name of the driver
 	System.out.print("What is your first name?\n");
 	String firstName = driverData.next();
+
 	
 	//Asking for the last name of the driver
 	System.out.print("What is your last name?\n");
@@ -79,7 +83,6 @@ public void newDriver()
 		System.out.print("That is not a valid card number, please reenter it now.\n");
 		driverCardNumber = driverData.next();
 	}
-	
 	
 	//Asks for the make of the car
 	System.out.print("What is your car make?\n");
@@ -190,11 +193,20 @@ public void switchAvailability()
  */
 public void payDriver(double totalCharges)
 {
-	
-	// TODO
-	//DataBase BullShit
-	
 	totalCharges = totalCharges*.8;
+
+	try(Connection con = Database.getConnection()){
+        PreparedStatement updatePaying = con.prepareStatement("UPDATE DRIVERS SET DriverEarningsarned = DriverEarningsarned +? WHERE DriverID=?");
+        updatePaying.setDouble(1, totalCharges);
+        updatePaying.setInt(2,driverID );
+        updatePaying.execute();
+
+        con.close();
+    }
+    catch (Exception e){
+	    System.out.println(e);
+    }
+
 }
 
 
@@ -203,20 +215,46 @@ public void payDriver(double totalCharges)
  */
 public void beginDrive()
 {
-	//TODO DATABASE BULLSHIT
-	available = 0;
+    try(Connection con = Database.getConnection())
+    {
+        PreparedStatement updateAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=0 WHERE DRIVERID=?");
+        updateAvail.setInt(1,driverID);
+        updateAvail.execute();
+    }
+    catch (Exception e){
+        System.out.println(e);
+    }
 }
 
 
 /**
  * Ends the drive once the rider has been dropped off.
  */
-public void endDrive()
+public void endDrive(int riderID, String startLocation, String endLocation,int riderId)
 {
-	
-	//TODO DATABASE BULLSHIT
-	available = 1;
-	rateRider();
+
+    Random rand = new Random();
+    distanceTraveled = rand.nextInt(27);
+
+    try(Connection con = Database.getConnection()){
+
+        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES VALUES(?,?,?,?,?,?)");
+        rideTableUpdate.setInt(1,riderID);
+        rideTableUpdate.setInt(2,riderID);
+        rideTableUpdate.setString(3, startLocation);
+        rideTableUpdate.setString(4, endLocation);
+        rideTableUpdate.setDouble(5, distanceTraveled);
+        rideTableUpdate.setDouble(6,(distanceTraveled*.50));
+        rideTableUpdate.execute();
+
+        PreparedStatement updateAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=1 WHERE DRIVERID=?");
+        updateAvail.setInt(1,driverID);
+        updateAvail.execute();
+    }
+    catch (Exception e){
+        System.out.println(e);
+    }
+	rateRider(riderID);
 }
 
 /**
@@ -274,11 +312,8 @@ public void driverLogin()
 /**
  * Gives the driver a chance to rate their experience with the rider. 
  */
-public void rateRider()
+public void rateRider(int riderID)
 {
-	//TODO DATABASE BULLSHIT
-	
-	
 	//Scanner to read the data typed.
 	Scanner rating = new Scanner (System.in);
 	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5 and 5 being the best and 1 being the worst.)\n");
@@ -304,7 +339,24 @@ public void rateRider()
 	{
 		riderRating = 1;
 	}
-	
+	try(Connection con = Database.getConnection()){
+        PreparedStatement setRating = con.prepareStatement("UPDATE DRIVERS SET DriverRating=? WHERE DriverID =? ");
+        setRating.setInt(1, riderRating);
+        setRating.setInt(2,riderID);
+        setRating.execute();
+
+        con.close();
+    }
+    catch (Exception e ){
+        System.out.println(e);
+    }
+	//Closes the scanner. 
+	rating.close();
+}
+
+public int getDriverID()
+{
+    return driverID;
 }
 
 }
