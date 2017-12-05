@@ -27,7 +27,7 @@ public class MainRun {
                   "\n**************************************");
           System.out.println("\nPlease select: \n(1) I am a new Customer " +
                   "\n(2) I am a new Driver \n" +
-                  "(3) I am a Previous customer that needs to login \n" +
+                  "(3) I am a Previous customer that needs to login and call a ride\n" +
                   "(4) I am a Previous driver that needs to login" +
                   "\n(5) Run Daily Reports\n" +
                   "(6) Exit the program");
@@ -36,24 +36,29 @@ public class MainRun {
 
           switch(mainMenu.nextInt())
           {
+              //creates a new Rider for the database and calls a ride
               case 1:
                   rider = new Rider();
                   rider.NewCustomer();
+                  System.out.println("Welcome to the ISU Car Ride System!");
+                  rider.callRide();
 
+                  //creates a new Driver for the database and gets a default ride
               case 2:
                   driver = new Driver();
                   driver.newDriver();
+                  System.out.println("Welcome to the ISU Car Ride System!");
                   driver.switchAvailability();
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
 
-                  // TODO Daniel what would be the correct value to put in for the 0?
-                  driver.payDriver(0);
-
+                  //logs in a new rider and calls a ride
               case 3:
                   rider = new Rider();
                   rider.customerLogin();
+                  rider.callRide();
 
+                  //logs in a new driver and calls a default ride
               case 4:
                   Driver d = new Driver();
                   d.driverLogin();
@@ -61,9 +66,13 @@ public class MainRun {
                   d.beginDrive();
                   d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
 
+                  //daily reports
               case 5:
                   DailyReport dailyReport = new DailyReport();
                   dailyReport.displayReport();
+
+              case 6:
+                  running = false;
           }
       }
     }
