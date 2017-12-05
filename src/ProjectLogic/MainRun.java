@@ -7,7 +7,11 @@ import java.util.Scanner;
 public class MainRun {
 
     public static void main(String args[]) throws
-            SQLException, IOException, ClassNotFoundException {
+            SQLException, IOException, ClassNotFoundException
+    {
+        Rider rider=null;
+        Driver driver=null;
+
         System.out.println("Going online...Please be patient\n");
         Database.init();
         System.out.println("You are now connected.\n");
@@ -23,40 +27,40 @@ public class MainRun {
         System.out.println("\nPlease type number of selection here: ");
         
 
-        switch(mainMenu.nextInt()){
+        switch(mainMenu.nextInt())
+        {
             case 1:
-                Rider rider = new Rider();
+                rider = new Rider();
+                rider.NewCustomer();
 
-                rider.customerLogin();
             case 2:
-                Driver driver = new Driver();
+                driver = new Driver();
                 driver.newDriver();
                 driver.switchAvailability();
                 driver.beginDrive();
-                driver.endDrive();
+                driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
                 
                 // TODO Daniel what would be the correct value to put in for the 0?
                 driver.payDriver(0);
-                
-                //TODO Case 3
+
             case 3:
+                rider = new Rider();
+                rider.customerLogin();
             	
             case 4:
             	Driver d = new Driver();
             	d.driverLogin();
             	d.switchAvailability();
             	d.beginDrive();
-            	d.endDrive();
+            	d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
             	
             	//TODO Daniel this is the same issue. 
             	d.payDriver(0);
-            	
-            	
-            	
+        }
+        if(rider!=null){
+            //let's get some showing what a rider can do
 
         }
-
-
 
     }
 
