@@ -45,9 +45,9 @@ public class DailyReport{
 
         }
 
-        System.out.println("Number of rides taken till now :"+number_of_rides);
+        System.out.println("Number of rides taken till now : "+number_of_rides);
 
-        System.out.println("Distance travelled by driver :"+distance_travelled);
+        System.out.println("Distance travelled by driver : "+distance_travelled);
 
         String sqlriderating = "select * from DRIVERS"; //2
 
@@ -65,9 +65,9 @@ public class DailyReport{
 
         }
 
-        System.out.println("Driver's rating till now :"+driver_ratings);
+        System.out.println("Driver's rating till now : "+ driver_ratings);
 
-        System.out.println("Total payout to the drivers :"+driver_earning);
+        System.out.println("Total payout to the drivers : "+ driver_earning);
 
     }
 

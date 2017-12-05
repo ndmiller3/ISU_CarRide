@@ -178,8 +178,6 @@ public void switchAvailability()
 		}
 		
 		//Closes the scanner.
-		avail.close();
-		switchAvail.close();
 		con.close();
 	}
 	catch (SQLException e) {
@@ -242,7 +240,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
     //updates the Rides table
     try(Connection con = Database.getConnection()){
 
-        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES VALUES(?,?,?,?,?,?)");
+        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES (RiderID, DriverID, StartLocation, Destination, DistanceTraveled, MonetaryAmount) VALUES(?,?,?,?,?,?)");
         rideTableUpdate.setInt(1,riderID);
         rideTableUpdate.setInt(2,driverID);
         rideTableUpdate.setString(3, startLocation);
@@ -281,7 +279,7 @@ public void driverLogin()
     
     try (Connection con = Database.getConnection())
     {
-    		String loginQuery = "SELECT DriverEmail, Card_Number, DriverID FROM Driver WHERE DriverEmail=? AND PASSWORD=?";
+    		String loginQuery = "SELECT Email, Card_Number, DriverID FROM DRIVERS WHERE Email=? AND PASSWORD=?";
     		
     		
     		//Sets up the driver's email and password
@@ -324,7 +322,7 @@ public void rateRider(int riderID)
 {
 	//Scanner to read the data typed.
 	Scanner rating = new Scanner (System.in);
-	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5 and 5 being the best and 1 being the worst.)\n");
+	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5, 5 being fantastic and 1 being bad.)\n");
 	
 	//Checks to determine how good the rider was.
 	if(rating.next().equals("5"))
