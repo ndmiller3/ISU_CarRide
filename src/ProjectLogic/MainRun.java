@@ -52,7 +52,6 @@ public class MainRun {
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
 
-                  //logs in a new rider and calls a ride
               case 3:
                   rider = new Rider();
                   rider.customerLogin();

@@ -261,7 +261,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
     }
     //these are sort of self explanatory
 	rateRider(riderID);
-    payDriver(distanceTraveled*.50);
+	payDriver(distanceTraveled*.50);
 }
 
 /**
