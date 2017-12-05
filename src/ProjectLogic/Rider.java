@@ -12,13 +12,14 @@ public class Rider {
 
     public double distanceTraveled; //TODO random distance generate, $3.00 + .50 every mile
 
-    private String startLocation;
-    private String destination;
-    private int rideStyle;
-    private String customerEmail;
-    private int customerID;
-    private String customerCardNumber;
-    private double totalCharges;
+    //these default values are for the purpose of testing because sequential order doesn't work on app-style classes well
+    private String startLocation="3906 Maricopa Drive, Ames, IA 50014";
+    private String destination="Jeff's Pizza, Ames, IA 50010";
+    private int rideStyle=1;
+    private String customerEmail="test@iastate.edu";
+    private int customerID=1;
+    private String customerCardNumber="1234567891234567";
+    private double totalCharges=3.50;
     private int riderID=1;
     private int driverID=1;
 
