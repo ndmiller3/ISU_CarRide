@@ -195,7 +195,8 @@ public void payDriver(double totalCharges)
 {
 	totalCharges = totalCharges*.8;
 
-	try(Connection con = Database.getConnection()){
+	try(Connection con = Database.getConnection())
+	{
         PreparedStatement updatePaying = con.prepareStatement("UPDATE DRIVERS SET DriverEarningsarned = DriverEarningsarned +? WHERE DriverID=?");
         updatePaying.setDouble(1, totalCharges);
         updatePaying.setInt(2,driverID );
@@ -206,7 +207,6 @@ public void payDriver(double totalCharges)
     catch (Exception e){
 	    System.out.println(e);
     }
-
 }
 
 
