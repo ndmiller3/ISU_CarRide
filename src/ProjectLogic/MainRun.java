@@ -9,70 +9,63 @@ public class MainRun {
     public static void main(String args[]) throws
             SQLException, IOException, ClassNotFoundException, Exception
     {
-        Rider rider=null;
-        Driver driver=null;
+      boolean running = true;
+      while(running){
+          Rider rider= new Rider();
+          Driver driver = new Driver();
 
-        System.out.println("Going online...Please be patient\n");
-        Database.init();
-        System.out.println("You are now connected.\n");
+          System.out.println("Going online...Please be patient\n");
+          Database.init();
+          System.out.println("You are now connected.\n");
 
-        Scanner mainMenu = new Scanner (System.in);
+          Scanner mainMenu = new Scanner (System.in);
 
-        System.out.println("**************************************\n" +
-                "*                                   *\n" +
-                "* Welcome to ISU's Car Ride System! *\n" +
-                "*                                   *" +
-                "\n**************************************");
-        System.out.println("\nPlease select if you are a: \n(1) new Customer \n(2) Driver \n(3) Previous customer that needs to login \n(4) Previous driver that needs to login\n(5) To run Daily Reports.");
-        System.out.println("\nPlease type number of selection here: ");
-        
-
-        switch(mainMenu.nextInt())
-        {
-            case 1:
-                rider = new Rider();
-                rider.NewCustomer();
-
-            case 2:
-                driver = new Driver();
-                driver.newDriver();
-                driver.driverLogin();
-                driver.switchAvailability();
-                driver.beginDrive();
-                driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
-                
-                // TODO Daniel what would be the correct value to put in for the 0?
-                driver.payDriver(0);
-
-            case 3:
-                rider = new Rider();
-                rider.customerLogin();
-            	
-            case 4:
-            	Driver d = new Driver();
-            	d.driverLogin();
-            	d.switchAvailability();
-            	d.beginDrive();
-            	d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
-            	
-            	//TODO Daniel this is the same issue. 
-            	d.payDriver(0);
-
-            case 5:
-               DailyReport dailyReport = new DailyReport();
-               dailyReport.displayReport();
-        }
-        if(rider!=null){
-            Scanner customerChoice = new Scanner(System.in);
-
-            System.out.println("Would you like to call a ride? (Y/N)");
-
-           if (customerChoice.next().equalsIgnoreCase("Y")){
-               rider.callRide();
-           }
+          System.out.println("**************************************\n" +
+                  "*                                   *\n" +
+                  "* Welcome to ISU's Car Ride System! *\n" +
+                  "*                                   *" +
+                  "\n**************************************");
+          System.out.println("\nPlease select: \n(1) I am a new Customer " +
+                  "\n(2) I am a new Driver \n" +
+                  "(3) I am a Previous customer that needs to login \n" +
+                  "(4) I am a Previous driver that needs to login" +
+                  "\n(5) Run Daily Reports\n" +
+                  "(6) Exit the program");
+          System.out.println("\nPlease type number of selection here: ");
 
 
-        }
+          switch(mainMenu.nextInt())
+          {
+              case 1:
+                  rider = new Rider();
+                  rider.NewCustomer();
+
+              case 2:
+                  driver = new Driver();
+                  driver.newDriver();
+                  driver.switchAvailability();
+                  driver.beginDrive();
+                  driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
+
+                  // TODO Daniel what would be the correct value to put in for the 0?
+                  driver.payDriver(0);
+
+              case 3:
+                  rider = new Rider();
+                  rider.customerLogin();
+
+              case 4:
+                  Driver d = new Driver();
+                  d.driverLogin();
+                  d.switchAvailability();
+                  d.beginDrive();
+                  d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
+
+              case 5:
+                  DailyReport dailyReport = new DailyReport();
+                  dailyReport.displayReport();
+          }
+      }
     }
 
 
