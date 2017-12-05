@@ -173,7 +173,6 @@ public void switchAvailability()
 		else
 		{
 			available = 0;
-			available = 1;
 			switchAvail.setInt(1, available);
 			switchAvail.execute();
 		}
