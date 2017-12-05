@@ -31,12 +31,14 @@ public class MainRun {
             case 2:
                 Driver driver = new Driver();
                 driver.newDriver();
+                driver.driverLogin();
                 driver.switchAvailability();
                 driver.beginDrive();
                 driver.endDrive();
                 
                 // TODO Daniel what would be the correct value to put in for the 0?
                 driver.payDriver(0);
+                break;
                 
                 //TODO Case 3
             case 3:
