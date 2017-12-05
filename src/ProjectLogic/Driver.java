@@ -244,7 +244,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
 
         PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES VALUES(?,?,?,?,?,?)");
         rideTableUpdate.setInt(1,riderID);
-        rideTableUpdate.setInt(2,riderID);
+        rideTableUpdate.setInt(2,driverID);
         rideTableUpdate.setString(3, startLocation);
         rideTableUpdate.setString(4, endLocation);
         rideTableUpdate.setDouble(5, distanceTraveled);
@@ -255,11 +255,14 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
         updateAvail.setInt(1,driverID);
         updateAvail.execute();
 
+
     }
     catch (Exception e){
         System.out.println(e);
     }
+    //these are sort of self explanatory
 	rateRider(riderID);
+    payDriver(distanceTraveled*.50);
 }
 
 /**
