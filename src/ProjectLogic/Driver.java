@@ -12,14 +12,15 @@ import java.util.Scanner;
  */
 
 public class Driver {
-	private String driverName; //Variable for driver name
-	private int available; //Variable to check driver availability.
+	//these values are the default for showcasing
+	private String driverName = "Drive McTest"; //Variable for driver name
+	private int available=1; //Variable to check driver availability.
 	private int riderRating; //Variable to store rider rating.
 	private double dailyTotalMoney; // Variable to keep track how much the driver has earned.
 	private String driverEmail; // Variable to hold Driver's email.
 	private String driverCardNumber; // Variable to hold the Driver's credit card number
-	private int driverID; // Variable to hold the Driver's ID Number.
-    private int distanceTraveled;
+	private int driverID=1; // Variable to hold the Driver's ID Number.
+    private int distanceTraveled=2;
     private int rideID;
 	
 	
@@ -216,6 +217,7 @@ public void payDriver(double totalCharges)
  */
 public void beginDrive()
 {
+    //switches availability, in a perfect app this would also open the navigation app of the drivers choice
     try(Connection con = Database.getConnection())
     {
         PreparedStatement updateAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=0 WHERE DRIVERID=?");
@@ -234,9 +236,11 @@ public void beginDrive()
 public void endDrive(int riderID, String startLocation, String endLocation,int riderId)
 {
 
+    //this is for our sake right now, creates a random distance so we don't have to poll Google Maps
     Random rand = new Random();
     distanceTraveled = rand.nextInt(27);
 
+    //updates the Rides table
     try(Connection con = Database.getConnection()){
 
         PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES VALUES(?,?,?,?,?,?)");
@@ -251,6 +255,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
         PreparedStatement updateAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=1 WHERE DRIVERID=?");
         updateAvail.setInt(1,driverID);
         updateAvail.execute();
+
     }
     catch (Exception e){
         System.out.println(e);
