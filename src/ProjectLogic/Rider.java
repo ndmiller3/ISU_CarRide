@@ -138,9 +138,7 @@ public class Rider {
             resultSet.next();
             driverID = resultSet.getInt(1);
             System.out.println("Your Driver is: "+resultSet.getString(2));
-
             connection.close();
-            rideDetails.close();
         }
         catch (Exception e){
             if(e.getMessage().equals("Illegal operation on empty result set.")){
@@ -155,6 +153,8 @@ public class Rider {
 
     /**
      * Takes in a RideID and calculates the Rider's Charges
+     *
+     * IMPLEMENTED LATER
      * @param rideID
      */
     public void RiderCharges(int rideID){
