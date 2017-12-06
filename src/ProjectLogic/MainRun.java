@@ -41,7 +41,9 @@ public class MainRun {
                   rider = new Rider();
                   rider.NewCustomer();
                   System.out.println("Welcome to the ISU Car Ride System!");
+                  rider.customerLogin();
                   rider.callRide();
+                  
 
                   //creates a new Driver for the database and gets a default ride
               case 2:
@@ -51,7 +53,9 @@ public class MainRun {
                   driver.switchAvailability();
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
+                  
 
+                  //logs in a new rider and calls a ride
               case 3:
                   rider = new Rider();
                   rider.customerLogin();
@@ -64,6 +68,7 @@ public class MainRun {
                   d.switchAvailability();
                   d.beginDrive();
                   d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
+                  break;
 
                   //daily reports
               case 5:
@@ -71,6 +76,7 @@ public class MainRun {
                   dailyReport.displayReport();
 
               case 6:
+            	  System.out.print("Thank you for riding with the ISU Car Ride System!");
                   running = false;
           }
       }
