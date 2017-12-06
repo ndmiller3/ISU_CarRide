@@ -15,7 +15,7 @@ public class Rider {
     //these default values are for the purpose of testing because sequential order doesn't work on app-style classes well
     private String startLocation="3906 Maricopa Drive, Ames, IA 50014";
     private String destination="Jeff's Pizza, Ames, IA 50010";
-    private int rideStyle=1;
+    private String rideStyle="1";
     private String customerEmail="test@iastate.edu";
     private int customerID=1;
     private String customerCardNumber;
@@ -41,7 +41,7 @@ public class Rider {
         //Ask the Customer for their relevant data
         System.out.println("\nWhat is your first name?");
         String firstName = customerData.next();
-        //TODO handle spaces in names
+
         System.out.println("What is your last name?");
         String lastName =customerData.next();
 
@@ -97,6 +97,9 @@ public class Rider {
           riderID = resultSet.getInt(1);
 
            con.close();
+           resultSet.close();
+           newCustomerStatement.close();
+           customerData.close();
        }
        catch (Exception e){
            System.out.println(e);
@@ -113,37 +116,43 @@ public class Rider {
      */
     public void callRide(){
 
-        Scanner rideDetails = new Scanner(System.in);
+        Scanner rideDetails = new Scanner(System.in).useDelimiter("\\n");
 
-        System.out.println("Please enter your starting address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010\n");
+        System.out.println("Please enter your starting address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010");
         startLocation = rideDetails.next();
 
-        System.out.println("Please enter your destination address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010\n");
+        System.out.println("Please enter your destination address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010");
         destination = rideDetails.next();
 
-        System.out.println("Please select your ride style by typing the corresponding number: \n(1) Regular\n(2) Car Pool\n(3)Cy-lect\n");
-        while(!rideDetails.hasNextInt() || rideDetails.nextInt()<1 || rideDetails.nextInt()>3){
-            System.out.println("**INVALID SELECTION**\n \nPlease select your ride style by typing the corresponding number: \n(1) Regular\n(2) Car Pool\n(3)Cy-lect\n");
-        }
-        rideStyle = rideDetails.nextInt();
+        rideDetails.useDelimiter("\\s");
+        System.out.println("Please select your ride style by typing the corresponding number: \n(1) Regular\n(2) Car Pool\n(3)Cy-lect");
+
+        rideStyle = rideDetails.next();
 
         try(Connection connection = Database.getConnection()){
 
             //Pulls a DriverID to use as the Driver
             String rideQuery = "SELECT DriverID, DriverName FROM DRIVERS WHERE RIDESTYLE=? AND AVAILABILITY = 1";
             PreparedStatement ridePrep = connection.prepareStatement(rideQuery);
-            ridePrep.setInt(1,rideStyle);
+            ridePrep.setString(1,rideStyle);
             ResultSet resultSet = ridePrep.executeQuery();
 
             //Set's driver ID and prints the Driver Name
+            resultSet.next();
             driverID = resultSet.getInt(1);
             System.out.println("Your Driver is: "+resultSet.getString(2));
 
             connection.close();
-
+            rideDetails.close();
         }
         catch (Exception e){
-            System.out.println(e);
+            if(e.getMessage().equals("Illegal operation on empty result set.")){
+                System.out.println("No Drivers Found.");
+            }
+            else{
+                System.out.println(e);
+            }
+
         }
     }
 
@@ -163,6 +172,10 @@ public class Rider {
 
             //calculates charges
             totalCharges = resultSet.getInt(1);
+
+            System.out.println("You will be charged: "+totalCharges);
+
+            rateDriver(driverID);
         }
 
         catch (Exception e){

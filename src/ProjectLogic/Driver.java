@@ -1,6 +1,5 @@
 package ProjectLogic;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.Random;
 import java.util.Scanner;
@@ -307,7 +306,8 @@ public void driverLogin()
                  loginSearch.setString(2,password);
                  resultSet = loginSearch.executeQuery();
     		  }
-    		  	  driverEmail=resultSet.getString(1);
+
+    		  driverEmail=resultSet.getString(1);
               driverCardNumber = resultSet.getString(2);
               driverID = resultSet.getInt(3);
 

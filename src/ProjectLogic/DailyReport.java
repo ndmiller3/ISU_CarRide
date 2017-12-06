@@ -1,13 +1,9 @@
 package ProjectLogic;
 
-import java.*;
-
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
-import java.util.Properties;
 import java.util.Scanner;
 
 /**
@@ -30,7 +26,7 @@ public class DailyReport{
     {
         Scanner contin = new Scanner(System.in);
         System.out.println("**************WARNING*******************\n" +
-                           "This will empty the current rides table.\n" +
+                           "This will empty the current rides table.\n Run only at the end of day.\n" +
                 "Continue? (Y/N)\n");
 
         if(contin.next().equalsIgnoreCase("y")){
@@ -92,7 +88,7 @@ public class DailyReport{
             writeStats.close();
 
             Statement emptyRides = connection.createStatement();
-            emptyRides.execute("TRUNCATE DRIVERS");
+            emptyRides.execute("TRUNCATE RIDES");
         }
         if(contin.next().equalsIgnoreCase("n")){
 
