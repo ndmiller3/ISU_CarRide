@@ -51,6 +51,7 @@ public class MainRun {
                   rider.NewCustomer();
                   System.out.println("Welcome to the ISU Car Ride System!\n");
                   rider.callRide();
+                  System.out.println("Your charges are: $"+driver.getDistanceTraveled()*.50);
                   break;
 
                   //creates for a new Driver for the database and gets a default ride
@@ -69,6 +70,7 @@ public class MainRun {
                   rider = new Rider();
                   rider.customerLogin();
                   rider.callRide();
+                  System.out.println("Your charges are: $"+driver.getDistanceTraveled()*.50);
                   break;
 
                   //logs in a new driver and calls a default ride

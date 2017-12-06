@@ -19,8 +19,8 @@ public class Driver {
 	private String driverEmail; // Variable to hold Driver's email.
 	private String driverCardNumber; // Variable to hold the Driver's credit card number
 	Random ran = new Random();
-	private int driverID= ran.nextInt(5); // Variable to hold the Driver's ID Number.
-    private int distanceTraveled=2;
+	private int driverID = ran.nextInt(6); // Variable to hold the Driver's ID Number.
+    private int distanceTraveled=ran.nextInt(50);
     private int rideID;
 	private int age;
 	
@@ -365,6 +365,9 @@ public void rateRider(int riderID)
 public int getDriverID()
 {
     return driverID;
+}
+public int getDistanceTraveled(){
+	return distanceTraveled;
 }
 
 }
