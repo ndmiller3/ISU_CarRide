@@ -115,7 +115,7 @@ public class Rider {
 
         Scanner rideDetails = new Scanner(System.in);
 
-        System.out.println("Please enter your starting address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010\n");
+        System.out.println("Please enter your starting address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010\n Please enter here:\n");
         startLocation = rideDetails.next();
 
         System.out.println("Please enter your destination address (including City, State and Zip)\nExample: 1234 North Cy Drive, Ames, IA 50010\n");
