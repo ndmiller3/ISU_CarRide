@@ -22,14 +22,14 @@ public class Driver {
 	private int driverID=1; // Variable to hold the Driver's ID Number.
     private int distanceTraveled=2;
     private int rideID;
-	
+	private int age;
 	
 /**
  * Constructor for driver
  */
 public Driver()
 {
-	
+  
 }
 
 /**
@@ -56,7 +56,7 @@ public void newDriver()
 	System.out.print("What is your age? (In years)\n");
 	
 	//Storing their age into a variable.
-	int age = driverData.nextInt();
+	 age = driverData.nextInt();
 	
 	//Checking to make sure they are an adult before becoming a driver
 	if(age < 18)
@@ -164,6 +164,7 @@ public void switchAvailability()
 		String availability = avail.next();
 		
 		PreparedStatement switchAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=?");
+		
 		//If they are available the variable changes to 1 if they aren't it is 0.
 		if (availability.equals("yes"))
 		{
@@ -241,7 +242,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
     //updates the Rides table
     try(Connection con = Database.getConnection()){
 
-        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES VALUES(?,?,?,?,?,?)");
+        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES (RiderID,DriverID,StartLocation,Destination,DistanceTraveled,MonetaryAmount) VALUES(?,?,?,?,?,?)");
         rideTableUpdate.setInt(1,riderID);
         rideTableUpdate.setInt(2,driverID);
         rideTableUpdate.setString(3, startLocation);
@@ -260,8 +261,12 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
         System.out.println(e);
     }
     //these are sort of self explanatory
+    if(available != 0)
+    {
 	rateRider(riderID);
 	payDriver(distanceTraveled*.50);
+    }
+   
 }
 
 /**
@@ -323,7 +328,7 @@ public void rateRider(int riderID)
 {
 	//Scanner to read the data typed.
 	Scanner rating = new Scanner (System.in);
-	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5 and 5 being the best and 1 being the worst.)\n");
+	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5. 5 being fantastic and 1 would be awful.)\n");
 	
 	//Checks to determine how good the rider was.
 	if(rating.next().equals("5"))
