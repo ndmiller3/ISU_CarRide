@@ -79,20 +79,12 @@ public class MainRun {
                   d.switchAvailability();
                   d.beginDrive();
                   d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
-                  System.out.println("\nPlease select: \n(1) I am a new Customer " +
-                          "\n(2) I am a new Driver \n" +
-                          "(3) I am a Previous customer that needs to login and call a ride\n" +
-                          "(4) I am a Previous driver that needs to login" +
-                          "\n(5) Run Daily Reports\n" +
-                          "(6) Exit the program");
-                  System.out.println("\nPlease type number of selection here: ");
                   break;
 
                   //daily reports
               case 5:
                   DailyReport dailyReport = new DailyReport();
                   dailyReport.displayReport();
-                  break;
                   break;
 
               case 6:
