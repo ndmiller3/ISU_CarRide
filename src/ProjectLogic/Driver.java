@@ -74,7 +74,7 @@ public void newDriver()
 	//Checks the length of the card number
 	while(driverCardNumber.length() != 16)
 	{
-		System.out.print("That is not a valid card number, please reenter it now.\n");
+		System.out.print("That is not a valid card number, please re-enter it now.\n");
 		driverCardNumber = driverData.next();
 	}
 	
