@@ -10,7 +10,7 @@ public class MainRun {
             SQLException, IOException, ClassNotFoundException, Exception
     {
       boolean running = true;
-      while(running){
+
           Rider rider= new Rider();
           Driver driver = new Driver();
 
@@ -25,16 +25,25 @@ public class MainRun {
                   "* Welcome to ISU's Car Ride System! *\n" +
                   "*                                   *" +
                   "\n**************************************");
-          System.out.println("\nPlease select: \n(1) I am a new Customer " +
+          String menuOptions = "\nPlease select: \n(1) I am a new Customer " +
                   "\n(2) I am a new Driver \n" +
                   "(3) I am a Previous customer that needs to login and call a ride\n" +
                   "(4) I am a Previous driver that needs to login" +
                   "\n(5) Run Daily Reports\n" +
-                  "(6) Exit the program");
-          System.out.println("\nPlease type number of selection here: ");
+                  "(6) Exit the program";
 
+        do{
+            System.out.println(menuOptions);
+            System.out.println("\nPlease type number of selection here: ");
 
-          switch(mainMenu.nextInt())
+            while(!mainMenu.hasNextInt()){
+                mainMenu.next();
+                System.out.println(menuOptions);
+                System.out.println("\nPlease type number of selection here: ");
+            }
+            int choicemainMenu=mainMenu.nextInt();
+
+          switch(choicemainMenu)
           {
               //creates a new Rider for the database and calls a ride
               case 1:
@@ -44,9 +53,8 @@ public class MainRun {
                   rider.customerLogin();
                   rider.callRide();
                   break;
-                  
 
-                  //creates a new Driver for the database and gets a default ride
+                  //creates a 4new Driver for the database and gets a default ride
               case 2:
                   driver = new Driver();
                   driver.newDriver();
@@ -56,13 +64,13 @@ public class MainRun {
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
                   break;
-                  
 
                   //logs in a new rider and calls a ride
               case 3:
                   rider = new Rider();
                   rider.customerLogin();
                   rider.callRide();
+                  break;
 
                   //logs in a new driver and calls a default ride
               case 4:
@@ -71,21 +79,33 @@ public class MainRun {
                   d.switchAvailability();
                   d.beginDrive();
                   d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
+                  System.out.println("\nPlease select: \n(1) I am a new Customer " +
+                          "\n(2) I am a new Driver \n" +
+                          "(3) I am a Previous customer that needs to login and call a ride\n" +
+                          "(4) I am a Previous driver that needs to login" +
+                          "\n(5) Run Daily Reports\n" +
+                          "(6) Exit the program");
+                  System.out.println("\nPlease type number of selection here: ");
                   break;
-                  
 
                   //daily reports
               case 5:
                   DailyReport dailyReport = new DailyReport();
                   dailyReport.displayReport();
                   break;
+                  break;
 
               case 6:
             	  System.out.print("Thank you for riding with the ISU Car Ride System!");
                   running = false;
                   break;
+
+              default:
+                  break;
+
+
           }
-      }
+      }while(running);
     }
 
 

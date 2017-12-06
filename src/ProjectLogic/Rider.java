@@ -93,6 +93,7 @@ public class Rider {
 
           ResultSet resultSet = getRiderIDStatement.executeQuery();
 
+          resultSet.next();
           riderID = resultSet.getInt(1);
 
            con.close();

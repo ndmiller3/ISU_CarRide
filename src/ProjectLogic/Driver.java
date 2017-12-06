@@ -328,7 +328,7 @@ public void rateRider(int riderID)
 {
 	//Scanner to read the data typed.
 	Scanner rating = new Scanner (System.in);
-	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5. 5 being fantastic and 1 would be awful.)\n");
+	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5, 5 being fantastic and 1 being bad.)\n");
 	
 	//Checks to determine how good the rider was.
 	if(rating.next().equals("5"))
