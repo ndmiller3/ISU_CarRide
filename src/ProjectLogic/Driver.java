@@ -18,7 +18,8 @@ public class Driver {
 	private double dailyTotalMoney; // Variable to keep track how much the driver has earned.
 	private String driverEmail; // Variable to hold Driver's email.
 	private String driverCardNumber; // Variable to hold the Driver's credit card number
-	private int driverID=1; // Variable to hold the Driver's ID Number.
+	Random ran = new Random();
+	private int driverID= ran.nextInt(5); // Variable to hold the Driver's ID Number.
     private int distanceTraveled=2;
     private int rideID;
 	private int age;

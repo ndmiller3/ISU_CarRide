@@ -50,7 +50,6 @@ public class MainRun {
                   rider = new Rider();
                   rider.NewCustomer();
                   System.out.println("Welcome to the ISU Car Ride System!\n");
-                  rider.customerLogin();
                   rider.callRide();
                   break;
 

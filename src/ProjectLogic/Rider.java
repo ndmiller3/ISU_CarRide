@@ -97,9 +97,6 @@ public class Rider {
           riderID = resultSet.getInt(1);
 
            con.close();
-           resultSet.close();
-           newCustomerStatement.close();
-           customerData.close();
        }
        catch (Exception e){
            System.out.println(e);
