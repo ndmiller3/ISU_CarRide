@@ -1,6 +1,5 @@
 package ProjectLogic;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.Random;
 import java.util.Scanner;
@@ -19,7 +18,8 @@ public class Driver {
 	private double dailyTotalMoney; // Variable to keep track how much the driver has earned.
 	private String driverEmail; // Variable to hold Driver's email.
 	private String driverCardNumber; // Variable to hold the Driver's credit card number
-	private int driverID=1; // Variable to hold the Driver's ID Number.
+	Random ran = new Random();
+	private int driverID= ran.nextInt(5); // Variable to hold the Driver's ID Number.
     private int distanceTraveled=2;
     private int rideID;
 	private int age;
@@ -53,17 +53,11 @@ public void newDriver()
 	driverName = firstName + " " + lastName;
 	
 	//Asking for the age of the driver.
-	System.out.print("What is your age? (In years)\n");
+	System.out.print("What is your age? (In years)(Must be 18)\n");
 	
 	//Storing their age into a variable.
 	 age = driverData.nextInt();
-	
-	//Checking to make sure they are an adult before becoming a driver
-	if(age < 18)
-	{
-		System.out.print("Sorry, ALL Drivers must be at least 18 years of age. Goodbye!");
-		return;
-	}
+	 
 	 
 	//Asking for their email address
 	System.out.print("What is your email address?\n");
@@ -77,11 +71,11 @@ public void newDriver()
 	System.out.print("What is your credit/debit card number?\nPlease enter as such: 1234567891234567\n");
 	
 	 driverCardNumber = driverData.next();
-	
+
 	//Checks the length of the card number
 	while(driverCardNumber.length() != 16)
 	{
-		System.out.print("That is not a valid card number, please reenter it now.\n");
+		System.out.print("That is not a valid card number, please re-enter it now.\n");
 		driverCardNumber = driverData.next();
 	}
 	
@@ -98,13 +92,6 @@ public void newDriver()
 	//Asks for the year of the car
 	System.out.print("What is the year of your car?\n");
 	int year = driverData.nextInt();
-	
-	//Checks to see if the car is new enough to use. 
-	if (year < 2007)
-	{
-		System.out.print("Your car is too old to be used, therefore you are not able to be a driver. Sorry!");
-		return;
-	}
 	
 	//Asks what type or ride style they want.
 	System.out.print("What is your ride style? Please enter 1 for regular, 2 for Car Pool, 3 for Cy-Select.\n");
@@ -316,7 +303,8 @@ public void driverLogin()
                  loginSearch.setString(2,password);
                  resultSet = loginSearch.executeQuery();
     		  }
-    		  	  driverEmail=resultSet.getString(1);
+
+    		  driverEmail=resultSet.getString(1);
               driverCardNumber = resultSet.getString(2);
               driverID = resultSet.getInt(3);
 

@@ -49,16 +49,15 @@ public class MainRun {
               case 1:
                   rider = new Rider();
                   rider.NewCustomer();
-                  System.out.println("Welcome to the ISU Car Ride System!");
-                  rider.customerLogin();
+                  System.out.println("Welcome to the ISU Car Ride System!\n");
                   rider.callRide();
                   break;
 
-                  //creates a 4new Driver for the database and gets a default ride
+                  //creates for a new Driver for the database and gets a default ride
               case 2:
                   driver = new Driver();
                   driver.newDriver();
-                  System.out.println("Welcome to the ISU Car Ride System!");
+                  System.out.println("Welcome to the ISU Car Ride System!\n");
                   driver.driverLogin();
                   driver.switchAvailability();
                   driver.beginDrive();
@@ -94,8 +93,6 @@ public class MainRun {
 
               default:
                   break;
-
-
           }
       }while(running);
     }
