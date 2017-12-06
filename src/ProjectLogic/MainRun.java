@@ -43,6 +43,7 @@ public class MainRun {
                   System.out.println("Welcome to the ISU Car Ride System!");
                   rider.customerLogin();
                   rider.callRide();
+                  break;
                   
 
                   //creates a new Driver for the database and gets a default ride
@@ -50,9 +51,11 @@ public class MainRun {
                   driver = new Driver();
                   driver.newDriver();
                   System.out.println("Welcome to the ISU Car Ride System!");
+                  driver.driverLogin();
                   driver.switchAvailability();
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
+                  break;
                   
 
                   //logs in a new rider and calls a ride
@@ -69,15 +72,18 @@ public class MainRun {
                   d.beginDrive();
                   d.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(),rider.getRiderID());
                   break;
+                  
 
                   //daily reports
               case 5:
                   DailyReport dailyReport = new DailyReport();
                   dailyReport.displayReport();
+                  break;
 
               case 6:
             	  System.out.print("Thank you for riding with the ISU Car Ride System!");
                   running = false;
+                  break;
           }
       }
     }
