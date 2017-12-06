@@ -52,17 +52,11 @@ public void newDriver()
 	driverName = firstName + " " + lastName;
 	
 	//Asking for the age of the driver.
-	System.out.print("What is your age? (In years)\n");
+	System.out.print("What is your age? (In years)(Must be 18)\n");
 	
 	//Storing their age into a variable.
 	 age = driverData.nextInt();
-	
-	//Checking to make sure they are an adult before becoming a driver
-	if(age < 18)
-	{
-		System.out.print("Sorry, ALL Drivers must be at least 18 years of age. Goodbye!");
-		return;
-	}
+	 
 	 
 	//Asking for their email address
 	System.out.print("What is your email address?\n");
@@ -76,7 +70,7 @@ public void newDriver()
 	System.out.print("What is your credit/debit card number?\nPlease enter as such: 1234567891234567\n");
 	
 	 driverCardNumber = driverData.next();
-	
+
 	//Checks the length of the card number
 	while(driverCardNumber.length() != 16)
 	{
@@ -97,13 +91,6 @@ public void newDriver()
 	//Asks for the year of the car
 	System.out.print("What is the year of your car?\n");
 	int year = driverData.nextInt();
-	
-	//Checks to see if the car is new enough to use. 
-	if (year < 2007)
-	{
-		System.out.print("Your car is too old to be used, therefore you are not able to be a driver. Sorry!");
-		return;
-	}
 	
 	//Asks what type or ride style they want.
 	System.out.print("What is your ride style? Please enter 1 for regular, 2 for Car Pool, 3 for Cy-Select.\n");
