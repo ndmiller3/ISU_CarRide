@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * @authorname Nolan Miller
- * Updated: 11-20-17
+ * Updated: 12-5-17
  */
 
 public class Driver {
@@ -22,14 +22,14 @@ public class Driver {
 	private int driverID=1; // Variable to hold the Driver's ID Number.
     private int distanceTraveled=2;
     private int rideID;
-	
+	private int age;
 	
 /**
  * Constructor for driver
  */
 public Driver()
 {
-	
+  
 }
 
 /**
@@ -38,7 +38,7 @@ public Driver()
 public void newDriver()
 {
 	//Scanner to read all of the input
-	Scanner driverData = new Scanner(System.in);
+	Scanner driverData = new Scanner(System.in).useDelimiter("\\n");
 	
 	//Asking for the first name of the driver
 	System.out.print("What is your first name?\n");
@@ -56,7 +56,7 @@ public void newDriver()
 	System.out.print("What is your age? (In years)\n");
 	
 	//Storing their age into a variable.
-	int age = driverData.nextInt();
+	 age = driverData.nextInt();
 	
 	//Checking to make sure they are an adult before becoming a driver
 	if(age < 18)
@@ -116,7 +116,7 @@ public void newDriver()
 	
 	
 	//Checks to make sure the license plate number is the correct length.
-	while(licensePlate.length()!= 7)
+	while(licensePlate.length() > 7)
 	{
 		System.out.println("That is not a valid license plate number, please re-enter it now.\n");
 		licensePlate = driverData.next();
@@ -124,7 +124,7 @@ public void newDriver()
 	
 	 try(Connection con = Database.getConnection())
 	 {
-		String newDriverQuery = "INSERT INTO DRIVER (DriverName,Age,DriverEmail,Password,Card_Number,CarMake,CarModel,License_Plate) VALUES(?,?,?,?,?,?,?,?)";
+		String newDriverQuery = "INSERT INTO DRIVERS (DriverName,Age,Email,Password,RideStyle,LicensePlate,Make,Model,Model_Year,Card_Number) VALUES(?,?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement newDriverStatement = con.prepareStatement(newDriverQuery);
 		
@@ -132,10 +132,12 @@ public void newDriver()
         newDriverStatement.setInt(2,age);
         newDriverStatement.setString(3,driverEmail);
         newDriverStatement.setString(4,password);
-        newDriverStatement.setString(5,driverCardNumber);
-        newDriverStatement.setString(6, car);
-        newDriverStatement.setString(7, model);
-        newDriverStatement.setString(8, licensePlate);
+        newDriverStatement.setString(5, rideStyle);
+        newDriverStatement.setString(6, licensePlate);
+        newDriverStatement.setString(7, car);
+        newDriverStatement.setString(8, model);
+        newDriverStatement.setInt(9, year);
+        newDriverStatement.setString(10,driverCardNumber);
         newDriverStatement.execute();
 		
         con.close();
@@ -145,8 +147,6 @@ public void newDriver()
 		 System.out.print(e);
 	 }
 	
-	//Closes the scanner.
-	driverData.close();
 }
 
 
@@ -155,16 +155,18 @@ public void newDriver()
  */
 public void switchAvailability()
 {
+	
 	//Scanner to read the availability.
 	try(Connection con = Database.getConnection())
-	{
+	{	
+		Scanner avail = new Scanner(System.in);
+		System.out.print("Are you available to work? Please type yes or no.\n");
+		String availability = avail.next();
+		
 		PreparedStatement switchAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=?");
 		
-		Scanner avail = new Scanner (System.in);
-		System.out.print("Are you available to work? Please type yes or no.\n");
-		
 		//If they are available the variable changes to 1 if they aren't it is 0.
-		if (avail.next().equals("yes"))
+		if (availability.equals("yes"))
 		{
 			available = 1;
 			switchAvail.setInt(1, available);
@@ -177,7 +179,7 @@ public void switchAvailability()
 			switchAvail.execute();
 		}
 		
-		//Closes the scanner.
+		switchAvail.close();
 		con.close();
 	}
 	catch (SQLException e) {
@@ -240,7 +242,7 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
     //updates the Rides table
     try(Connection con = Database.getConnection()){
 
-        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES (RiderID, DriverID, StartLocation, Destination, DistanceTraveled, MonetaryAmount) VALUES(?,?,?,?,?,?)");
+        PreparedStatement rideTableUpdate = con.prepareStatement("INSERT INTO RIDES (RiderID,DriverID,StartLocation,Destination,DistanceTraveled,MonetaryAmount) VALUES(?,?,?,?,?,?)");
         rideTableUpdate.setInt(1,riderID);
         rideTableUpdate.setInt(2,driverID);
         rideTableUpdate.setString(3, startLocation);
@@ -259,8 +261,12 @@ public void endDrive(int riderID, String startLocation, String endLocation,int r
         System.out.println(e);
     }
     //these are sort of self explanatory
+    if(available != 0)
+    {
 	rateRider(riderID);
-    payDriver(distanceTraveled*.50);
+	payDriver(distanceTraveled*.50);
+    }
+   
 }
 
 /**

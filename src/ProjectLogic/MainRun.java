@@ -50,6 +50,7 @@ public class MainRun {
                   rider = new Rider();
                   rider.NewCustomer();
                   System.out.println("Welcome to the ISU Car Ride System!");
+                  rider.customerLogin();
                   rider.callRide();
                   break;
 
@@ -58,6 +59,7 @@ public class MainRun {
                   driver = new Driver();
                   driver.newDriver();
                   System.out.println("Welcome to the ISU Car Ride System!");
+                  driver.driverLogin();
                   driver.switchAvailability();
                   driver.beginDrive();
                   driver.endDrive(rider.getRiderID(),rider.getStartLocation(), rider.getDestination(), rider.getRiderID());
@@ -90,15 +92,15 @@ public class MainRun {
               case 5:
                   DailyReport dailyReport = new DailyReport();
                   dailyReport.displayReport();
-                  mainMenu.next();
+                  break;
                   break;
 
               case 6:
+            	  System.out.print("Thank you for riding with the ISU Car Ride System!");
                   running = false;
                   break;
 
               default:
-                  mainMenu.next();
                   break;
 
 

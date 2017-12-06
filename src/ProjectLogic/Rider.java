@@ -18,7 +18,7 @@ public class Rider {
     private int rideStyle=1;
     private String customerEmail="test@iastate.edu";
     private int customerID=1;
-    private String customerCardNumber="1234567891234567";
+    private String customerCardNumber;
     private double totalCharges=3.50;
     private int riderID=1;
     private int driverID=1;
@@ -67,7 +67,7 @@ public class Rider {
         //fixed with suggestion from Nolan
         while(customerCardNumber.length() != 16)
         {
-            System.out.print("That is not a valid card number, please reenter it now.\n");
+            System.out.print("That is not a valid card number, please re-enter it now.\n");
             customerCardNumber = customerData.next();
         }
 
