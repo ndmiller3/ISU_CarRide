@@ -151,6 +151,14 @@ public void switchAvailability()
 		
 		PreparedStatement switchAvail = con.prepareStatement("UPDATE DRIVERS SET AVAILABILITY=?");
 		
+		
+		// Checks to see if they typed a valid answer.
+		while(!availability.equals("yes") && !availability.equals("no"))
+		{
+			System.out.print("That is an invalid answer, please type yes or no if you are available to work:\n");
+			availability = avail.next();
+		}
+		
 		//If they are available the variable changes to 1 if they aren't it is 0.
 		if (availability.equals("yes"))
 		{
@@ -158,7 +166,7 @@ public void switchAvailability()
 			switchAvail.setInt(1, available);
 			switchAvail.execute();
 		}
-		else
+		if(availability.equals("no"))
 		{
 			available = 0;
 			switchAvail.setInt(1, available);
@@ -194,6 +202,7 @@ public void payDriver(double totalCharges)
     catch (Exception e){
 	    System.out.println(e);
     }
+	System.out.print("You were paid $" + totalCharges + " for that ride.");
 }
 
 
@@ -316,21 +325,22 @@ public void rateRider(int riderID)
 	//Scanner to read the data typed.
 	Scanner rating = new Scanner (System.in);
 	System.out.print("What would you rate your experience with your rider? (Enter 1 to 5, 5 being fantastic and 1 being bad.)\n");
+	int stars = rating.nextInt();
 	
 	//Checks to determine how good the rider was.
-	if(rating.next().equals("5"))
+	if(stars == 5)
 	{
 		riderRating = 5;
 	}
-	else if(rating.next().equals("4"))
+	else if(stars == 4)
 	{
 		riderRating = 4;
 	}
-	else if(rating.next().equals("3"))
+	else if(stars == 3)
 	{
 		riderRating = 3;
 	}
-	else if(rating.next().equals("2"))
+	else if(stars == 2)
 	{
 		riderRating = 2;
 	}
@@ -349,8 +359,6 @@ public void rateRider(int riderID)
     catch (Exception e ){
         System.out.println(e);
     }
-	//Closes the scanner. 
-	rating.close();
 }
 
 public int getDriverID()
